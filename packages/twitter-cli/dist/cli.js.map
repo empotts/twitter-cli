@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/cli.ts"],"sourcesContent":["#!/usr/bin/env node\n\nimport { run } from \"./bin\";\n\nrun().then((code) => {\n  process.exitCode = code;\n});\n"],"mappings":";;;;;;AAIA,IAAI,EAAE,KAAK,CAAC,SAAS;AACnB,UAAQ,WAAW;AACrB,CAAC;","names":[]}

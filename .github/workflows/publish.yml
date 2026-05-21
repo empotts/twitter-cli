@@ -1,4 +1,4 @@
-name: Publish to PyPI
+name: Publish Package
 
 on:
   push:
@@ -13,22 +13,28 @@ jobs:
   publish:
     needs: verify
     runs-on: ubuntu-latest
-    environment: pypi
     permissions:
+      contents: read
       id-token: write
-
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-node@v4
         with:
-          python-version: "3.12"
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
 
-      - name: Setup uv
-        uses: astral-sh/setup-uv@v6
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
 
-      - name: Build package
-        run: uv build
+      - name: Install dependencies
+        run: pnpm install
 
-      - name: Publish to PyPI
-        uses: pypa/gh-action-pypi-publish@release/v1
+      - name: Build
+        run: pnpm -r build
+
+      - name: Publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --provenance --access public

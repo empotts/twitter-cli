@@ -1,70 +1,62 @@
-# AGENTS.md — Agent Developer Guide for twitter-cli
+# AGENTS.md — Agent Developer Guide for twitter-cli-ts
 
 This file provides context for AI agents working in this repository.
 
 ## Project Overview
 
-- **Project**: twitter-cli — A CLI for Twitter/X (read timelines, bookmarks, search, post, reply, etc.)
-- **Language**: Python 3.10+
-- **Package Manager**: uv (recommended) / pip
-- **Repository**: https://github.com/jackwener/twitter-cli
+- **Project**: twitter-cli-ts — TypeScript-first CLI + package for Twitter/X workflows
+- **Language**: TypeScript (Node 20+)
+- **Package Manager**: pnpm
+- **Repository**: https://github.com/empotts/twitter-cli-ts
 
 ## Build, Lint, and Test Commands
 
 ```bash
-# Install all dependencies (including dev)
-uv sync --extra dev
+# Install dependencies
+pnpm install
 
-# Run ruff linter
-uv run ruff check .
+# Typecheck all packages
+pnpm -r typecheck
 
-# Run mypy type checker
-uv run mypy twitter_cli
+# Run all tests
+pnpm -r test
 
-# Run all tests (excludes smoke tests by default)
-uv run pytest -q
-
-# Run a single test
-uv run pytest tests/test_cli.py::test_feed_command -v
-
-# Run tests matching pattern
-uv run pytest -k "test_parse" -v
+# Build all packages
+pnpm -r build
 ```
 
 ## Code Style
 
-- **Line length**: 100 characters
-- **Python version**: 3.10+
-- Use `from __future__ import annotations` at top of all .py files
-- **Functions/variables**: `snake_case`, **Classes**: `PascalCase`, **Constants**: `UPPER_SNAKE_CASE`
-- Private functions: prefix with `_`
-- Use `@dataclass` for data models (in `models.py`)
-- Use Click framework for CLI commands
-- Custom exceptions in `exceptions.py`, base: `TwitterError(RuntimeError)`
+- TypeScript strict mode is enabled
+- Prefer explicit types at module boundaries
+- Keep CLI as thin adapters and business logic in `twitter-core`
+- Structured output contract is documented in `SCHEMA.md`
 
 ## Project Structure
 
-```
-twitter_cli/
-├── cli.py               # Click CLI entry point
-├── client.py            # Twitter API client (HTTP)
-├── auth.py              # Cookie extraction & auth
-├── graphql.py           # GraphQL query IDs
-├── parser.py            # Tweet/User parsing
-├── models.py            # Dataclass models
-├── formatter.py         # Rich table formatting
-├── serialization.py     # YAML/JSON output
-├── output.py            # Structured output helpers
-├── config.py            # Config loading
-├── filter.py            # Tweet ranking/scoring
-├── constants.py         # Constants
-├── exceptions.py        # Custom exceptions
-├── cache.py             # Tweet caching
-├── search.py            # Search utilities
-└── timeutil.py          # Time utilities
+```text
+packages/
+├── twitter-core/            # Importable core library
+│   ├── src/
+│   │   ├── client.ts
+│   │   ├── auth.ts
+│   │   ├── parser.ts
+│   │   ├── serialization.ts
+│   │   ├── services.ts
+│   │   └── ...
+│   └── tests/               # Vitest suites + fixtures
+└── twitter-cli/             # Thin CLI wrapper over core
+    ├── src/
+    │   ├── cli.ts
+    │   ├── bin.ts
+    │   ├── formatters.ts
+    │   └── ...
+    └── tests/               # Vitest CLI tests
 ```
 
 ## CI
 
-- GitHub Actions: Python 3.10, 3.11, 3.12
-- CI validates: ruff check + mypy + pytest
+- GitHub Actions runs:
+  - `pnpm -r typecheck`
+  - `pnpm -r test`
+  - `pnpm -r build`

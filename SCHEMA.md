@@ -1,6 +1,6 @@
 # Structured Output Schema
 
-`twitter-cli` uses a shared agent-friendly envelope for machine-readable output.
+`twitter-cli-ts` uses a shared agent-friendly envelope for machine-readable output.
 
 ## Success
 
@@ -35,7 +35,7 @@ error:
 
 ## Article Fields
 
-`twitter article <id> --json` returns the standard tweet object plus:
+`twitter-ts article <id> --json` returns the standard tweet object plus:
 
 ```yaml
 data:

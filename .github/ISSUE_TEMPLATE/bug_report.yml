@@ -6,8 +6,8 @@ body:
     id: version
     attributes:
       label: Version
-      description: "Run `twitter --version` or `pip show twitter-cli | grep Version`"
-      placeholder: "e.g. 0.6.0"
+      description: "Run `twitter-ts --version`"
+      placeholder: "e.g. 1.0.0"
     validations:
       required: true
   - type: dropdown
@@ -38,7 +38,7 @@ body:
     id: access_method
     attributes:
       label: Access Method
-      description: How are you accessing the machine where twitter-cli runs?
+      description: How are you accessing the machine where `twitter-ts` runs?
       options:
         - Local terminal
         - SSH
@@ -64,13 +64,13 @@ body:
     id: reproduce
     attributes:
       label: Steps to reproduce
-      description: "Commands or steps to reproduce the issue. Use `twitter -v <command>` for debug output."
+      description: "Commands or steps to reproduce the issue. Use `twitter-ts -v <command>` for debug output."
       render: bash
   - type: textarea
     id: diagnostics
     attributes:
       label: Diagnostics
-      description: "Paste the output of `twitter -v <command>` here. This helps us diagnose cookie and auth issues quickly."
+      description: "Paste the output of `twitter-ts -v <command>` here. This helps us diagnose cookie and auth issues quickly."
       render: text
   - type: textarea
     id: logs

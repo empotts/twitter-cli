@@ -6,8 +6,8 @@ body:
     id: version
     attributes:
       label: Current version
-      description: "Run `twitter --version` or `pip show twitter-cli | grep Version`"
-      placeholder: "e.g. 0.6.0"
+      description: "Run `twitter-ts --version`"
+      placeholder: "e.g. 1.0.0"
     validations:
       required: false
   - type: textarea
